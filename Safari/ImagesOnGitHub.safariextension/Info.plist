@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>ImagesOnGitHub</string>
 	<key>CFBundleIdentifier</key>
-	<string>me.voidmain.imagesongithub</string>
+	<string>me.voidmain.safari.imagesongithub</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>

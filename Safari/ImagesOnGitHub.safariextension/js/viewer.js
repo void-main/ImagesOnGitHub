@@ -5,11 +5,13 @@ function genApiPathFromHtmlPath(htmlPath) {
   var parts = htmlPath.split('/');
   var user = parts[0];
   var repo = parts[1];
+  var branch = parts[3];
   var filePath = parts.slice(4).join('/');
 
   // the github api path is composed in the format of:
-  // https://api.github.com/repos/:user/:repo/contents/:path
-  var apiPath = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + filePath;
+  // https://api.github.com/repos/:user/:repo/contents/:path?ref=:branch
+  var apiPath = "https://api.github.com/repos/"
+    + user + "/" + repo + "/contents/" + filePath + "?ref=" + branch;
   return apiPath;
 }
 
