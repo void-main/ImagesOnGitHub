@@ -1,6 +1,6 @@
 {
   "name": "ImagesOnGitHub",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "description": "Show you the 'real' image when browsing image files on Github repositories.",
   "page_action": {
