@@ -1,6 +1,7 @@
 // Checks if the page is an github page
 // Checks if the page file's data is an image
-
+var toolbarBtnIdentifier = "imgCmd";
+var cmdBtn;
 
 function inGithub(url) {
   return url.indexOf('https://github.com') == 0;
@@ -28,15 +29,13 @@ function isImage(path) {
 
 // the main listener
 // it dispatches the tab content to inGithub and isImageFile methods
-// TODO: why the heck is the item button be so slow?
-function onNewPage(event) {
-  event.target.disabled = true;
+function onNewPage(url) {
+  cmdBtn.disabled = true;
 
-  var url = safari.application.activeBrowserWindow.activeTab.url;
   if (url) {
     if(inGithub(url)) {
       if (isImage(url)) {
-        event.target.disabled = false;
+        cmdBtn.disabled = false;
       }
     }
   }
@@ -47,26 +46,47 @@ var popoverIdentifier = "imagePopver";
 function commandListener(event) {
   // display the image
   if (event.command == "showImage") {
-    showBtnItem = event.target;
-    imagePopover = showBtnItem.popover;
+    imagePopover = cmdBtn.popover;
 
     if (imagePopover && imagePopover.visible == false) {
-      showBtnItem.popover = null;
+      cmdBtn.popover = null;
       safari.extension.removePopover(popoverIdentifier);
     }
 
     myPop = safari.extension.createPopover(popoverIdentifier,
       safari.extension.baseURI + "viewer.html", 300, 400);
-    showBtnItem.popover = myPop;
-    showBtnItem.showPopover();
+    cmdBtn.popover = myPop;
+    cmdBtn.showPopover();
   }
 }
 
 // events when page gots changed
 function pageChangeListener(event) {
-  onNewPage(event);
+  var url = safari.application.activeBrowserWindow.activeTab.url;
+  onNewPage(url);
 }
 
-safari.application.addEventListener("navigate", pageChangeListener, false);
+// respond to message
+function respondToMessage(theMessageEvent) {
+    if(theMessageEvent.name === "testImageFile") {
+      var url = theMessageEvent.message.href;
+      onNewPage(url);
+    }
+}
+
+function initToolbarButton() {
+  var itemArray = safari.extension.toolbarItems;
+  for (var i = 0; i < itemArray.length; ++i) {
+    var item = itemArray[i];
+    if (item.identifier == toolbarBtnIdentifier) {
+      cmdBtn = item;
+      break;
+    }
+  }
+}
+
+safari.application.addEventListener("message",respondToMessage,false);
 safari.application.addEventListener("validate", pageChangeListener, false);
 safari.application.addEventListener("command", commandListener, false);
+
+initToolbarButton();

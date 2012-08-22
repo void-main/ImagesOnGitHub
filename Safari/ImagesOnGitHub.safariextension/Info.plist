@@ -43,7 +43,12 @@
 	<key>Content</key>
 	<dict>
 		<key>Scripts</key>
-		<dict/>
+		<dict>
+			<key>Start</key>
+			<array>
+				<string>js/detect_ajax_page_load.js</string>
+			</array>
+		</dict>
 	</dict>
 	<key>Description</key>
 	<string>Show you the 'real' image when browsing image files on Github repositories.</string>
@@ -53,10 +58,15 @@
 	<dict>
 		<key>Website Access</key>
 		<dict>
+			<key>Allowed Domains</key>
+			<array>
+				<string>github.com</string>
+				<string>api.github.com</string>
+			</array>
 			<key>Include Secure Pages</key>
 			<true/>
 			<key>Level</key>
-			<string>All</string>
+			<string>Some</string>
 		</dict>
 	</dict>
 	<key>Website</key>

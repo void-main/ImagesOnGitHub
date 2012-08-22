@@ -21,15 +21,18 @@ function getResponse(data) {
 }
 
 function displayImage(path) {
-  safari.extension.globalPage.contentWindow.console.log(path);
   var targetUrl = genApiPathFromHtmlPath(path);
 
   $.ajax({
     url: targetUrl,
     success: function(data) {
       getResponse(data);
+    },
+    error: function(error) {
+      safari.extension.globalPage.contentWindow.console.log(error);
     }
   });
 }
 
-var url = safari.application.activeBrowserWindow.activeTab.url;displayImage(url);
+var url = safari.application.activeBrowserWindow.activeTab.url;
+displayImage(url);
